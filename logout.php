@@ -1,5 +1,5 @@
 <?php
-session_start();
+include 'INC/head.php';
 $_SESSION = array();
   // Destruction de la session
 session_destroy();
@@ -10,4 +10,5 @@ if(empty($_SESSION['login'])) {
   header('Location: login.php');
   exit();
 };
+include 'INC/foot.php';
 ?>
