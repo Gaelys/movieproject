@@ -27,12 +27,14 @@
             </div>
             <div>
                 <a href="index.php">Accueil</a> - 
-                <a href="login.php">Login</a>
-            </div>
-            <div>
+                <a href="login.php">Login</a> -
+                <a href="product.php">Gourmandises</a> -
+                    
                 <?php
                 if (!empty($_SESSION['login'])) {
-                    echo '<a href="logout.php">logout</a>';
+                    echo ' <a href="cart.php">Panier</a> -';
+                    echo ' <a href="parametre.php">Paramètres du compte</a> -';
+                    echo ' <a href="logout.php">logout</a>';
                 };
                 ?>
             </div>

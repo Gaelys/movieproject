@@ -21,4 +21,19 @@ function connection($login, $password) {
     return $user;
 }
 
+function getAll ($field1, $field2, $table) {
+    $pdo = linkToDb();
+    $query  = "SELECT $field1, $field2 FROM $table";
+    $statement = $pdo->query($query);
+    $allFromOne = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $allFromOne;
+}
+
+function getInfo ($table, $table2, $foreignkey, $id, $identifiant) {
+    $pdo = linkToDb();
+    $query  = "SELECT * FROM $table JOIN $table2 ON $table.$foreignkey = $table2.$foreignkey WHERE $id = $identifiant";
+    $statement = $pdo->query($query);
+    $all = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $all;
+}
 ?>
