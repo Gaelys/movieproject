@@ -3,6 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
         <title><?php echo $title; ?></title>
     </head>
     <body>
@@ -14,7 +16,7 @@
             <?php
             ?>
             <div>
-                Bienvenue,
+                <h2>Bienvenue,
                 <?php
                 session_start();
                 include "function.php";
@@ -24,6 +26,7 @@
                     echo " cher cinéphile.";
                 }
                 ?>
+                </h2>
             </div>
             <div>
                 <a href="index.php">Accueil</a> - 
@@ -33,7 +36,7 @@
                 <?php
                 if (!empty($_SESSION['login'])) {
                     echo ' <a href="cart.php">Panier</a> -';
-                    echo ' <a href="parametre.php">Paramètres du compte</a> -';
+                    echo ' <a href="parametre.php">Informations du compte</a> -';
                     echo ' <a href="logout.php">logout</a>';
                 };
                 ?>

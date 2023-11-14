@@ -11,7 +11,7 @@ if (!empty($_POST['login']) && !empty($_POST['password'])) {
     if (count($user) > 0) {
         // user identified
         $_SESSION['login'] = $login;
-        $_SESSION['password'] = $password;
+        $_SESSION['iduser'] = $user[0]['iduser'];
         header('Location: index.php');
         exit();
     } else {
@@ -40,4 +40,3 @@ if (!empty($_SESSION['login'])) {
 };
 
         include 'INC/foot.php';
-?>
