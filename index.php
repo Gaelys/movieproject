@@ -7,6 +7,6 @@ $movies = getAll("idmovie", "title", "movie");
 <?php
 foreach($movies as $movie) {
     echo '<div>' .$movie['title'] . '<br/>';
-    echo '<a href="detail.php?identifiant=' . $movie["idmovie"] . '">Détails</a></div>';
+    echo '<a href="detailmovie.php?identifiant=' . $movie["idmovie"] . '">Détails</a></div>';
 }
 include 'INC/foot.php';

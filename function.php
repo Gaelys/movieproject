@@ -92,3 +92,31 @@ function getProductInCart($id) {
     $productName = $statement->fetch(PDO::FETCH_ASSOC);
     return $productName; 
 }
+
+function getSession($id) {
+    $pdo = linkToDb();
+    $query  = "SELECT `session`, date_movie, room, seatTaken, idmovie_session, seats  FROM movie_session as m JOIN `session`  as s ON m.idsession = s.idsession 
+    JOIN date_of as d ON m.iddate_of = d.iddate_of 
+    JOIN room as r ON r.idroom = m.idroom where idmovie = $id AND seatTaken < seats; ";
+    $statement = $pdo->query($query);
+    $show = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $show;
+}
+
+function getRoomSeatDetail($id) {
+    $pdo = linkToDb();
+    $query  = "SELECT `session`, date_movie, room, seatTaken, seats  FROM movie_session as m JOIN `session`  as s ON m.idsession = s.idsession 
+    JOIN date_of as d ON m.iddate_of = d.iddate_of 
+    JOIN room as r ON r.idroom = m.idroom where idmovie_session = $id";
+    $statement = $pdo->query($query);
+    $roomChoice = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $roomChoice;
+}
+
+function getPrices () {
+    $pdo = linkToDb();
+    $query  = "SELECT * FROM price";
+    $statement = $pdo->query($query);
+    $getPrices = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $getPrices;
+}

@@ -30,7 +30,6 @@ $product = getProductInfo($identifiantP);
 Commander maintenant:
 <form method="post">
     <label for="quantity">Choisissez la quantité : </label><br/>
-    <!-- <input type="hidden" name="<?php echo $identifiantP; ?>"> -->
     <input type="number" id="quantity" name="quantity">
     <button type="submit">Commander</button>
 </form>

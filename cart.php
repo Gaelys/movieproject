@@ -4,7 +4,6 @@ include 'INC/head.php';
 ?>
 
 <?php
-
 var_dump($_SESSION);
 if (!empty($_SESSION['cart'])) {
     ?>
