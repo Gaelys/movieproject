@@ -41,7 +41,7 @@ var_dump($availableMovies);
         }
         ?>
     </select>
-    <input type="hidden" name="cineSession" value="<?php echo $movie[0]['title'];?>">
+    
     <input type="hidden" name="movie" value="<?php echo $movie[0]['title'];?>">
     <input type="hidden" name="idmovie" value="<?php echo $identifiant;?>">
     <button type="submit">Commander</button>

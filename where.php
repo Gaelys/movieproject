@@ -1,31 +1,61 @@
 <?php
 $title ='validation de vos places';
+
 include 'INC/head.php';
-unset($_SESSION['movie']);
+unset ($_SESSION['movie']);
 var_dump($_POST);
 if (!empty($_POST)) {
-    $idmovie = $_POST['idmovie'];
+    $iduser = $_SESSION['iduser'];
     $quantity = $_POST['quantity'];
-    $movie = $_POST['movie'];
-    $session = $_POST['cineSession'];
-
-    if (!isset($_SESSION['movie'])) {
-        $_SESSION['movie'] = array();
-    }
-    if (isset($_SESSION['movie'][$idmovie])) {
-        $_SESSION['movie'][$idmovie] += $quantity;
-    } else {
-        $_SESSION['movie'][$idmovie] = $quantity;
-    }
-    for ($i=0; $i<$quantity; $i++) {
-        if (isset($_SESSION['movie'][$i+1 . $movie])) {
-            $_SESSION['movie'][$i+1 . $movie] += $_POST['price'.$i+1];
-        } else {
-            $_SESSION['movie'][$i+1 . $movie] = $_POST['price'.$i+1];
+    $session = $_POST['idmovie_session'];
+    $idmovie = $_POST['idmovie'];
+    $ticket= array( );
+    for ($i = 1; $i <= $quantity; $i++) {
+        // Assurez-vous de vérifier si la clé $_POST existe avant de l'ajouter à $ticket
+        $post_key = 'price' . $i;
+        if (isset($_POST[$post_key])) {
+            $ticket[] = $_POST[$post_key];
         }
-    if (!isset($_SESSION['movie']['session'.$idmovie.$session])) {
-        $_SESSION['movie']['session'.$idmovie.$session] = $session;
     }
+    var_dump($ticket);
+    $counts = array_count_values($ticket);
+    var_dump($counts);
+
+    try {
+        $pdo = linkToDb();
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo->beginTransaction();
+        //$insertStatement = $pdo->prepare("INSERT INTO cart (iduser, idmovie, quantity, idmovie_session, idprice, infos) VALUES (:iduser, :idmovie, :quantity, :idmovie_session, :price, :infos)");
+        foreach ($counts as $price => $happen) {
+
+            $getMoviePrice = getMoviePrice($price);
+            $getListMovieInPrice =getListMovieInPrice($idmovie, $price);
+            if (!empty($getListMovieInPrice)) {
+                $total = $getListMovieInPrice['quantity'] + $happen;
+                $query = "UPDATE cart set quantity = :quantity WHERE idmovie = :idmovie AND idprice = :idprice ";
+                $statement = $pdo->prepare($query);
+                $statement ->bindValue(':quantity', $total, \PDO::PARAM_INT);
+                $statement ->bindValue(':idmovie', $idmovie, \PDO::PARAM_INT);
+                $statement ->bindValue(':idprice', $price, \PDO::PARAM_INT);
+                $statement ->execute();
+            }else {
+                $infos = $getMoviePrice['infos'];
+                $insertStatement = $pdo->prepare("INSERT INTO cart (iduser, idmovie, quantity, idmovie_session, idprice, infos) VALUES (:iduser, :idmovie, :quantity, :idmovie_session, :price, :infos)");
+                $insertStatement->bindParam(':iduser', $iduser); 
+                $insertStatement->bindParam(':idmovie', $idmovie);
+                $insertStatement->bindParam(':idmovie_session', $session);
+                $insertStatement->bindParam(':price', $price);
+                $insertStatement->bindParam(':quantity', $happen);
+                $insertStatement->bindParam(':infos', $infos);
+                
+                $insertStatement->execute();
+            }
+        }
+        $pdo->commit();
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        echo "Failed: " . $e->getMessage();
+        die;
     }
 }
 var_dump($_SESSION);

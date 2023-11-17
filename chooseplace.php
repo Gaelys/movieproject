@@ -10,6 +10,7 @@ $movie = $_POST['movie'];
 $dateTime = $_POST['date'];
 $idmovie = $_POST['idmovie'];
 $roomDetail = getRoomSeatDetail($dateTime);
+$idMovieSession = $roomDetail[0]['idmovie_session'];
 var_dump($roomDetail);
 $date = $roomDetail[0]['date_movie'];
 $formattedDate = substr($date, 8, 2);
@@ -25,6 +26,7 @@ $hourOfMovie = substr($roomDetail[0]['session'], 0, 5);
     <input type="hidden" name="idmovie" value="<?php echo $idmovie;?>">
     <input type="hidden" name="movie" value="<?php echo $movie;?>">
     <input type="hidden" name="cineSession" value="<?php echo $dateTime;?>">
+    <input type="hidden" name="idmovie_session" value="<?php echo $idMovieSession;?>">
     <button type="submit">Réserver ses places</button>
 </form>
 <?php

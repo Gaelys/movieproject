@@ -3,12 +3,18 @@ $title= 'retire un item du panier';
 include 'INC/head.php';
 
 if (!empty($_GET)) {
-    $identifiantP = $_GET['$id'];
-    $_SESSION['cart'][$identifiantP] -- ;
-    if ($_SESSION['cart'][$identifiantP] === 0) {
-        unset($_SESSION['cart'][$identifiantP]);
-        var_dump($_SESSION['cart']);
-    
+    if (isset($_GET['idp'])) {
+        $idproduct = $_GET['idp'];
+        $iduser = $_SESSION['iduser'];
+        $item = minusCart($iduser, $idproduct);
+        var_dump($item);
+        $quantity = $item['quantity'] - 1;
+        echo $quantity;
+        if ($item['quantity'] > 1) {
+            $insertInCart =  minusInsertInC($iduser, $quantity, $idproduct);
+        } else {
+            $deleteFromC = deleteFromC($iduser, $idproduct);
+        }
     }
 }
 header ('Location: cart.php');

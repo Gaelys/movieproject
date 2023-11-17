@@ -6,6 +6,7 @@ if (empty($_POST)) {
     header ('Location: index.php');
     die;
 }
+$idMovieSession = $_POST['idmovie_session'];
 $movie = $_POST['movie'];
 $idmovie = $_POST['idmovie'];
 $quantity = $_POST['quantity'];
@@ -36,10 +37,9 @@ $prices = getPrices();
     }
     ?>
     </table>
-    <input type="hidden" name="cineSession" value="<?php echo $_POST['cineSession'];?>">
     <input type="hidden" name="idmovie" value="<?php echo $idmovie;?>">
+    <input type="hidden" name="idmovie_session" value="<?php echo $idMovieSession;?>">
     <input type="hidden" name="quantity" value="<?php echo $quantity;?>">
-    <input type="hidden" name="movie" value="<?php echo $movie;?>">
     <button type="submit">Finaliser</button>
 </form>
 
