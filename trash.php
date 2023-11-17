@@ -12,7 +12,14 @@ if (!empty($_POST)) {
     $idproduct = $_POST['idmovie'];
     $iduser = $_SESSION['iduser'];
     $idprice = $_POST['idprice'];
+    $quantity = $_POST['quantity'];
+    $idmovie_session = $_POST['idmovie_session'];
     $deleteMovie = deleteMovieInCartWithPrice($iduser, $idproduct, $idprice);
+    $verifySeat = verifySeatAvai($idmovie_session);
+    $seatAvai = $verifySeat['seatAvai'];
+    $seatNow = $seatAvai + $quantity;
+    $resetSeat =  resetSeat($seatNow, $idmovie_session);
+
 
 }
 

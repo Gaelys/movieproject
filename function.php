@@ -103,9 +103,9 @@ function getProductPriceInCart($id) {
 
 function getSession($id) {
     $pdo = linkToDb();
-    $query  = "SELECT `session`, date_movie, room, seatTaken, idmovie_session, seats  FROM movie_session as m JOIN `session`  as s ON m.idsession = s.idsession 
+    $query  = "SELECT `session`, date_movie, room, seatAvai, idmovie_session, seats  FROM movie_session as m JOIN `session`  as s ON m.idsession = s.idsession 
     JOIN date_of as d ON m.iddate_of = d.iddate_of 
-    JOIN room as r ON r.idroom = m.idroom where idmovie = $id AND seatTaken < seats; ";
+    JOIN room as r ON r.idroom = m.idroom where idmovie = $id AND seatAvai > 0 ";
     $statement = $pdo->query($query);
     $show = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $show;
@@ -113,7 +113,7 @@ function getSession($id) {
 
 function getRoomSeatDetail($id) {
     $pdo = linkToDb();
-    $query  = "SELECT `session`, date_movie, room, seatTaken,idmovie_session, seats  FROM movie_session as m JOIN `session`  as s ON m.idsession = s.idsession 
+    $query  = "SELECT `session`, date_movie, room, seatAvai,idmovie_session, seats  FROM movie_session as m JOIN `session`  as s ON m.idsession = s.idsession 
     JOIN date_of as d ON m.iddate_of = d.iddate_of 
     JOIN room as r ON r.idroom = m.idroom where idmovie_session = $id";
     $statement = $pdo->query($query);
@@ -258,4 +258,21 @@ function getLastNum_order() {
     $statement = $pdo->query($query);
     $getLast = $statement->fetch(PDO::FETCH_ASSOC);
     return $getLast;
+}
+
+function verifySeatAvai($id) {
+    $pdo = linkToDb();
+    $query = "SELECT seatAvai FROM movie_session WHERE idmovie_session = $id";
+    $statement = $pdo->query($query);
+    $verifySeat = $statement->fetch(PDO::FETCH_ASSOC);
+    return $verifySeat;   
+}
+
+function resetSeat($seatAvai, $idmovie_session) {
+    $pdo = linkToDb();
+    $query = "UPDATE movie_session SET seatAvai = :seatAvai WHERE idmovie_session = :idmovie_session";
+    $statement = $pdo ->prepare($query);
+    $statement ->bindValue(':seatAvai', $seatAvai, \PDO::PARAM_INT);
+    $statement ->bindValue(':idmovie_session', $idmovie_session, \PDO::PARAM_INT);
+    $statement ->execute();
 }

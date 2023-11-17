@@ -15,14 +15,14 @@ var_dump($roomDetail);
 $date = $roomDetail[0]['date_movie'];
 $formattedDate = substr($date, 8, 2);
 $monthNum = mb_substr($date, 5 ,2);
-$seatAvai = $roomDetail[0]['seats'] - $roomDetail[0]['seatTaken'];
+$seatAvai = $roomDetail[0]['seatAvai'];
 $hourOfMovie = substr($roomDetail[0]['session'], 0, 5);
 ?>
 <h3>Vous avez choisi le film : "<?php echo $movie;?>", le <?php echo $formattedDate . " du " . $monthNum . " à " . $hourOfMovie ;?> : </h3>
 <p>Il reste <?php echo $seatAvai;?> places. </p>
 <form method="post" action="chooseprice.php">
     <label for="quantity">Choisissez la quantité : </label><br/>
-    <input type="number" min="0" max="$seatAvai" id="quantity" name="quantity">
+    <input type="number" min="0" max="<?php echo $seatAvai;?>" id="quantity" name="quantity">
     <input type="hidden" name="idmovie" value="<?php echo $idmovie;?>">
     <input type="hidden" name="movie" value="<?php echo $movie;?>">
     <input type="hidden" name="cineSession" value="<?php echo $dateTime;?>">

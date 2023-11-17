@@ -39,8 +39,10 @@ if (!empty($_POST)) {
             die;
     }
 
+    header('location: product.php');
+    exit();
 }
-var_dump($_SESSION);
+
 
 ?>
 <div>

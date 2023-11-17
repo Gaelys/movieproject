@@ -5,7 +5,7 @@ include 'INC/head.php';
 $pdo = linkToDb();
 
 $getMyBookings = getMyBookings($_SESSION['iduser']);
-var_dump($getMyBookings);
+
 ?>
 <h3>Réservations en cours</h3>
 <?php

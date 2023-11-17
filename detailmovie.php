@@ -3,6 +3,10 @@ $title ='détail';
 include 'INC/head.php';
 $identifiant = $_GET['identifiant'];
 $movie = getinfo("movie", "classification", "idclassification", "idmovie", $identifiant);
+if(isset($_SESSION['message'])) {
+    echo "<p>" . $_SESSION['message'] . "</p>";
+    unset($_SESSION['message']);
+}
 echo '<br/>';
 echo 'Film à l\'affiche <strong>"' . $movie[0]['title'] . '"</strong>.<br/>';
 echo "Classé : " .$movie[0]['classification'];
@@ -23,7 +27,7 @@ var_dump($availableMovies);
     <?php
     foreach ($availableMovies as $avMovie) {
         $formattedTime = substr($avMovie['session'], 0, 5);   
-        echo '<tr><td>' . $avMovie['date_movie'] . '</td><td>' . $formattedTime . '</td><td>' .  $avMovie['seats'] - $avMovie['seatTaken'] . ' places</td></tr>';
+        echo '<tr><td>' . $avMovie['date_movie'] . '</td><td>' . $formattedTime . '</td><td>' .  $avMovie['seatAvai'] . ' places</td></tr>';
         }
     ?>
 </table>

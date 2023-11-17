@@ -3,7 +3,7 @@ $title ='validation de vos places';
 
 include 'INC/head.php';
 unset ($_SESSION['movie']);
-var_dump($_POST);
+
 if (!empty($_POST)) {
     $iduser = $_SESSION['iduser'];
     $quantity = $_POST['quantity'];
@@ -17,19 +17,34 @@ if (!empty($_POST)) {
             $ticket[] = $_POST[$post_key];
         }
     }
-    var_dump($ticket);
+    
     $counts = array_count_values($ticket);
-    var_dump($counts);
+    
 
     try {
         $pdo = linkToDb();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $pdo->beginTransaction();
+
+        $verifySeatAvai = verifySeatAvai($session);
+        $seatAvai = $verifySeatAvai['seatAvai'];
+        if ($quantity > $seatAvai ) {
+            $_SESSION['message'] = "Ce nombre de place ne'est plus disponible.";
+            ('Location: detailmovie.php?identifiant=$idmovie');
+            die;
+        } else {
+            $seatAfterCart = $seatAvai - $quantity;
+            $query = "UPDATE movie_session set seatAvai = :seatNow WHERE idmovie_session = :idmovie_session ";
+            $statement = $pdo->prepare($query);
+            $statement ->bindValue(':seatNow', $seatAfterCart, \PDO::PARAM_INT);
+            $statement ->bindValue(':idmovie_session', $session, \PDO::PARAM_INT);
+            $statement ->execute();
+        }
         //$insertStatement = $pdo->prepare("INSERT INTO cart (iduser, idmovie, quantity, idmovie_session, idprice, infos) VALUES (:iduser, :idmovie, :quantity, :idmovie_session, :price, :infos)");
         foreach ($counts as $price => $happen) {
 
             $getMoviePrice = getMoviePrice($price);
-            $getListMovieInPrice =getListMovieInPrice($idmovie, $price);
+            $getListMovieInPrice =getListMovieInPrice($idmovie, $price, $iduser);
             if (!empty($getListMovieInPrice)) {
                 $total = $getListMovieInPrice['quantity'] + $happen;
                 $query = "UPDATE cart set quantity = :quantity WHERE idmovie = :idmovie AND idprice = :idprice ";
@@ -51,6 +66,7 @@ if (!empty($_POST)) {
                 $insertStatement->execute();
             }
         }
+        
         $pdo->commit();
     } catch (Exception $e) {
         $pdo->rollBack();
@@ -58,7 +74,7 @@ if (!empty($_POST)) {
         die;
     }
 }
-var_dump($_SESSION);
-header ('Location : cart.php');
+
+header ('Location: cart.php');
 exit();
 include 'INC/foot.php';

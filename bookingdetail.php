@@ -13,7 +13,7 @@ JOIN date_of as d ON ms.iddate_of=d.iddate_of
 WHERE oc.iduser =$user AND oc.idorder_cine=$id";
 $statement = $pdo->query($query);
 $movies = $statement->fetchAll(PDO::FETCH_ASSOC);
-var_dump($movies);
+
 $query="SELECT oc.create_At, oc.price, oc.idorder_cine, infos, op.quantity, snack
 FROM order_cine AS oc
 JOIN order_product AS op ON oc.idorder_cine = op.idorder_cine
@@ -21,7 +21,7 @@ JOIN product AS m ON op.idproduct = m.idproduct
 WHERE oc.iduser=$user AND oc.idorder_cine=$id";
 $statement = $pdo->query($query);
 $products = $statement->fetchAll(PDO::FETCH_ASSOC);
-var_dump($products);
+
 
 if (empty($products)) {
     ?>

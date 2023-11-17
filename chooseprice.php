@@ -10,6 +10,13 @@ $idMovieSession = $_POST['idmovie_session'];
 $movie = $_POST['movie'];
 $idmovie = $_POST['idmovie'];
 $quantity = $_POST['quantity'];
+$verifySeatAvai = verifySeatAvai($idMovieSession);
+$seatAvai = $verifySeatAvai['seatAvai'];
+if ($seatAvai < $quantity) {
+    $_SESSION['message'] = "Ce nombre de place ne'est plus disponible.";
+    ('Location: detailmovie.php?identifiant=$idmovie');
+    die;
+}
 $prices = getPrices();
 ?>
 <div>

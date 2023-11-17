@@ -7,7 +7,7 @@ include 'INC/head.php';
 $user = $_SESSION['iduser'];
 
 if (!empty($_POST)) {
-    var_dump($_POST);
+    
     $currentDate = date("Y-m-d H:i:s");
     $totalPrice = $_POST['totalprice'];
     $iduser = $_SESSION['iduser'];
@@ -152,6 +152,8 @@ if (!empty($getCart)) {
             } else {
                 ?>
                 <form method="post" action="trash.php">
+                    <input type="hidden" name="quantity" value="<?php echo $item['quantity'];?>">
+                    <input type="hidden" name="idmovie_session" value="<?php echo $item['idmovie_session'];?>">
                     <input type="hidden" name="idprice" value="<?php echo $priceHer['idprice'];?>">
                     <input type="hidden" name="idmovie" value="<?php echo $item['idmovie'];?>">
                     <input type="submit" value="supprimer"></input>
