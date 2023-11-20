@@ -7,8 +7,18 @@ if (!empty($_POST)) {
     $password1 = $_POST['password1'];
     $password2 = $_POST['password2'];
     $oldPassword = $_POST['oldPassword'];
+    if ($password1 === '' || $password2 === '' || $oldPassword === '' ) {
+        ?>
+        <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>Modification de mot de passe : </strong> Vous n'avez pas rempli tous les champs.
+        </div>
+        <?php 
+    }
     $user = $_SESSION['iduser'];
-    if (($password1 === $password2) && ($password1 !== $oldPassword)) {
+    $verifyPassword = connection($_SESSION['login']);
+    $verify = password_verify($password1,$verifyPassword[0]['password']);
+    if (($password1 === $password2) && ($password1 !== $oldPassword) && $verify=== true) {
         $password_hash = password_hash($password1, PASSWORD_DEFAULT);
         $changePassword = updatePassword($password_hash, $user);
         ?>
@@ -17,10 +27,29 @@ if (!empty($_POST)) {
             <strong>Modification de mot de passe : </strong>Votre mot de passe a été modifié avec succès.
         </div>
         <?php
-    } else if (($password1 !== $password2)) {
-        echo "Vous n'avez pas entrer le même mot de passe.";
+    } 
+    if (($password1 !== $password2)) {
+        ?>
+        <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>Modification de mot de passe : </strong>Vous n'avez pas entrer le même mot de passe.
+        </div>
+        <?php 
+    }
+    if ($verify !== true) {
+        ?>
+        <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>Modification de mot de passe : </strong>Le mot de passe actuelle n'est pas valide.
+        </div>
+        <?php 
     } else {
-        echo "Le nouveau mot de passe ne peut pas être le même que l'ancien.";
+        ?>
+        <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>Modification de mot de passe : </strong>Le nouveau mot de passe ne peut pas être le même que l'ancien.
+        </div>
+        <?php 
     }
 
 }

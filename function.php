@@ -282,3 +282,27 @@ function resetSeat($seatAvai, $idmovie_session) {
     $statement ->bindValue(':idmovie_session', $idmovie_session, \PDO::PARAM_INT);
     $statement ->execute();
 }
+
+function deleteFromOrder_cine($iduser, $idorder_cine) {
+    $pdo = linkToDb();
+    $query = "DELETE FROM order_product  WHERE idorder_cine = :idorder_cine ";
+    $statement = $pdo ->prepare($query);
+    $statement->bindParam(':idorder_cine', $idorder_cine, PDO::PARAM_INT);
+    $statement ->execute();
+    $query = "DELETE FROM order_cine  WHERE iduser = :iduser AND idorder_cine = :idorder_cine ";
+    $statement = $pdo ->prepare($query);
+    $statement->bindParam(':iduser', $iduser, PDO::PARAM_INT);
+    $statement->bindParam(':idorder_cine', $idorder_cine, PDO::PARAM_INT);
+    $statement ->execute();
+    
+}
+
+function getquantityFromProductOrder($idorder_cine) {
+    $pdo = linkToDb();
+    $query  = "SELECT quantity, idproduct, idmovie_session FROM order_product WHERE idorder_cine = :idorder_cine";
+    $statement = $pdo ->prepare($query);
+    $statement->bindParam(':idorder_cine', $idorder_cine, PDO::PARAM_INT);
+    $statement->execute();
+    $getQuantity = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $getQuantity;
+}

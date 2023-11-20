@@ -26,8 +26,12 @@ if (empty($getMyBookings)) {
             echo '<a href="bookingdetail.php?identifiant=' . $booking['idorder_cine'] . '">détails</></a>';
             ?>
             </div>
+            <?php
+            echo '<a href="suppressbooking.php?identifiant=' . $booking['idorder_cine'] . '">supprimer</a>';
+            ?>
         </div>
         <?php
+        
     }
 }
 $getMyOldBookings = getMyOldBookings($_SESSION['iduser']);

@@ -5,7 +5,7 @@ include 'INC/head.php';
 $pdo = linkToDb();
 $user = $_SESSION['iduser'];
 $id = $_GET['identifiant'];
-$query="SELECT create_At, price, oc.idorder_cine, infos, title, quantity,`session`, date_movie  FROM order_cine as oc JOIN order_product as op ON oc.idorder_cine=op.idorder_cine
+$query="SELECT create_At, price, oc.idorder_cine, infos, title, quantity,`session`, date_movie, date_end  FROM order_cine as oc JOIN order_product as op ON oc.idorder_cine=op.idorder_cine
 JOIN movie as m ON op.idmovie=m.idmovie
 JOIN movie_session as ms ON op.idmovie_session=ms.idmovie_session
 JOIN session as s ON ms.idsession=s.idsession
@@ -74,7 +74,10 @@ if (empty($products)) {
     ?>
 </div>
 <?php
+
 }
+
+
 ?>
 
 <div class="container mb-5">
