@@ -1,8 +1,13 @@
 <?php
 $title ='détail';
 include 'INC/head.php';
+if (empty($_GET) || (!is_numeric($_GET['identifiant']))) {
+    header('Location: product.php');
+    die;
+}
 $identifiant = $_GET['identifiant'];
 $movie = getinfo("movie", "classification", "idclassification", "idmovie", $identifiant);
+
 if(isset($_SESSION['message'])) {
     echo "<p>" . $_SESSION['message'] . "</p>";
     unset($_SESSION['message']);
