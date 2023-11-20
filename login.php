@@ -8,15 +8,19 @@ if (!empty($_POST['login']) && !empty($_POST['password'])) {
     $login = $_POST['login'];
     $password = $_POST['password'];
     $user =connection($login);
-    $verify = password_verify($password,$user[0]['password']);
-    if (count($user) > 0 && $verify === true) {
+    if (count($user) > 0 && password_verify($password,$user[0]['password']) === true) {
         // user identified
         $_SESSION['login'] = $login;
         $_SESSION['iduser'] = $user[0]['iduser'];
         header('Location: index.php');
         exit();
     } else {
-        echo "Ce mot de passe ou nom d'utilisateur ne correspond à aucun compte.";
+        ?>
+        <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>Tentative de connexion : </strong>Ce mot de passe ou nom d'utilisateur ne correspond à aucun compte.
+        </div>
+        <?php 
     }
 };
 if (!empty($_SESSION['login'])) {

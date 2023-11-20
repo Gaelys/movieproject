@@ -26,9 +26,9 @@ if (empty($getMyBookings)) {
             echo '<a href="bookingdetail.php?identifiant=' . $booking['idorder_cine'] . '">détails</></a>';
             ?>
             </div>
-            <?php
-            echo '<a href="suppressbooking.php?identifiant=' . $booking['idorder_cine'] . '">supprimer</a>';
-            ?>
+            <div>
+                <a class="text-danger" href="suppressbooking.php?identifiant=<?php echo $booking['idorder_cine'];?>">supprimer</a>
+            </div>
         </div>
         <?php
         
