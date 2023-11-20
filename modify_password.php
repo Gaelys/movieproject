@@ -20,21 +20,23 @@ if (!empty($_POST)) {
 ?>
 <h2>Vous souhaitez modifier votre mot de passe : <?php echo $_SESSION['login'];?></h2>
 
-<form method="post">
-    <div>
-        <label for="password1">Nouveau mot de passe : </label>
-        <input type=password id="password1" name="password1">
-    </div>
-    <div>
-        <label for="password2">Nouveau mot de passe : </label>
-        <input type=password id="password2" name="password2">
-    </div>
-    <div>
-        <label for="oldPassword">Ancien mot de passe : </label>
-        <input type=password id="oldPassword" name="oldPassword">
-    </div>
-    <div>
-        <button type="submit">Soumettre</button>
+<form method="post" class="mb-3">
+    <div  class="container ">
+        <div class="form-group">
+            <label class="col-sm-4 col-form-label" for="password1">Nouveau mot de passe : </label>
+            <input class="form-control" type=password id="password1" name="password1">
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 col-form-label" for="password2">Nouveau mot de passe : </label>
+            <input class="form-control" type=password id="password2" name="password2">
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 col-form-label" for="oldPassword">Ancien mot de passe : </label>
+            <input class="form-control" type=password id="oldPassword" name="oldPassword">
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">Soumettre</button>
+        </div>
     </div>
 </form>
 

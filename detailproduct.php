@@ -1,10 +1,17 @@
 <?php
 $title ='votre gourmandise';
 include 'INC/head.php';
-
+if (empty($_GET) || (!is_numeric($_GET['identifiant']))) {
+    header('Location: product.php');
+    die;
+}
 $idproduct = $_GET['identifiant'];
 $product = getProductInfo($idproduct);
 if (!empty($_POST)) { 
+    if (empty($_SESSION['iduser'])) {
+        header('Location: login.php');
+        die;
+    }
     $iduser = $_SESSION['iduser'];
     $quantity = $_POST['quantity'];
     $price = $product[0]['price'];
@@ -45,21 +52,31 @@ if (!empty($_POST)) {
 
 
 ?>
-<div>
+<div class="mb-3">
     <h3>Produit séléctionné : <strong><?php echo $product[0]['snack']; ?></strong></h3>
-    Allergènes : <?php echo $product[0]['allergies'];?>
+    <div class="alert alert-danger">
+        <h4 class="alert-heading">Allergènes : <?php echo $product[0]['allergies'];?></h4>
+    </div>
+    <img src="<?php echo $product[0]['images'];?>" width="160em" height="250em"> 
     <div>
-        <p>Description : </p>
+        <h4>Description : </h4>
         <?php echo $product[0]['description'];?> . <br/><br/>
     </div>
     Prix : <?php echo $product[0]['price'];?>€.
 </div>
-
-Commander maintenant:
-<form method="post">
-    <label for="quantity">Choisissez la quantité : </label><br/>
-    <input type="number" id="quantity" name="quantity">
-    <button type="submit">Commander</button>
+<div class="mb-2">
+    <h4>Commander maintenant:</h4>
+</div>
+<form method="post" class="mb-3 col-sm-3">
+    <div class="form-group">
+        <div class="mb-3">
+            <label for="quantity" class="form-label mt-4">Choisissez la quantité : </label><br/>
+            <input class="form-select" type="number" min="0" id="quantity" name="quantity">
+        </div>
+            <div>
+            <button type="submit" class="btn btn-outline-info">Commander</button>
+        </div>
+    </div>
 </form>
 <?php
 

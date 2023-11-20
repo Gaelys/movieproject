@@ -1,7 +1,6 @@
 <?php
 $title ='choisissez le nombre de place';
 include 'INC/head.php';
-var_dump($_POST);
 if (empty($_POST)) {
     header ('Location: index.php');
     die;
@@ -19,8 +18,8 @@ if ($seatAvai < $quantity) {
 }
 $prices = getPrices();
 ?>
-<div>
-    Des justificatifs seront demandés pour les tarifs réduits.
+<div class="mt-3 mb-3">
+    <h4>Des justificatifs seront demandés pour les tarifs réduits.</h4>
 </div>
 <form method="post" action="where.php">
     <table>

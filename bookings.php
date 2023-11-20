@@ -11,7 +11,9 @@ $getMyBookings = getMyBookings($_SESSION['iduser']);
 <?php
 if (empty($getMyBookings)) {
     ?>
+    <div class="container">
 <P>Auncune reservations en cours</P>
+    </div>
     <?php
 } else { 
     foreach($getMyBookings as $booking) {
@@ -30,16 +32,19 @@ if (empty($getMyBookings)) {
 }
 $getMyOldBookings = getMyOldBookings($_SESSION['iduser']);
 ?>
+<hr>
 <h3>Anciennes réservations</h3>
 <?php
 if (empty($getMyOldBookings)) {
     ?>
-<P>Auncune reservations en cours</P>
+    <div class="container">
+        <P>Auncune reservations</P>
+    </div>
     <?php
 } else { 
     foreach($getMyOldBookings as $booking) {
         ?>
-        <div>
+        <div class="mb-3">
             <h4>Réservation n°<?php echo $booking['idorder_cine'];?> faite le : <?php echo $booking['create_At'];?></h4>
             <div>
             Total : <?php echo $booking['price'];?> € 
