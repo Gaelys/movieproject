@@ -52,18 +52,12 @@ foreach($movies as $movie) {
 ?>
 <div>
   <ul class="pagination pagination-lg">
-    <li class="page-item disabled">
-      <a class="page-link" href="#">&laquo;</a>
-    </li>
     <?php for ($i = 1; $i <= $npPages; $i ++): ?>
     <li class="page-item <?php echo $i == $page ? 'active' : '' ?>" <?php echo $i == $page ? 'aria-current="page"' : '' ?>>
       <a class="page-link" href="index.php?page=<?php echo $i; ?>&search=<?php echo $_GET['search'] ?? ''; ?>"><?php echo $i; ?>
       </a>
     </li>
     <?php endfor ?> 
-    <li class="page-item">
-      <a class="page-link" href="#">&raquo;</a>
-    </li>
   </ul>
 </div>
 <?php
