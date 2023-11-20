@@ -9,7 +9,14 @@ if (!empty($_POST)) {
     $oldPassword = $_POST['oldPassword'];
     $user = $_SESSION['iduser'];
     if (($password1 === $password2) && ($password1 !== $oldPassword)) {
-        $changePassword = updatePassword($password1, $user);
+        $password_hash = password_hash($password1, PASSWORD_DEFAULT);
+        $changePassword = updatePassword($password_hash, $user);
+        ?>
+        <div class="alert alert-dismissible alert-success">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>Modification de mot de passe : </strong>Votre mot de passe a été modifié avec succès.
+        </div>
+        <?php
     } else if (($password1 !== $password2)) {
         echo "Vous n'avez pas entrer le même mot de passe.";
     } else {

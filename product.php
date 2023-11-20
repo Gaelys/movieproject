@@ -16,7 +16,7 @@ foreach($products as $product) {
       <?php 
         echo '<h6 class="specolor">' . $product['snack'] . ":</h6> ";
         echo '<div>' . $product['description'] . '</div>';
-        echo '<span class="badge bg-danger rounded-pill">Allegène :' . $product['allergies']. '</span><br/>';
+        echo '<span class="badge bg-danger rounded-pill">Allergène :' . $product['allergies']. '</span><br/>';
         echo '<a href="detailproduct.php?identifiant=' . $product["idproduct"] . '">Détails</a></div>';
         ?>
       </div>

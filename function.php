@@ -7,12 +7,11 @@ function linkToDb() {
     return $pdo;
 }
 
-function connection($login, $password) {
+function connection($login) {
     $pdo = linkToDb();
-    $query  = "SELECT `login`, `password`, iduser FROM `user` WHERE BINARY `login` = :login AND BINARY `password`  = :password";
+    $query  = "SELECT `login`, `password`, iduser FROM `user` WHERE BINARY `login` = :login";
     $statement = $pdo ->prepare($query);
     $statement ->bindValue(':login', $login, \PDO::PARAM_STR);
-    $statement ->bindValue(':password', $password, \PDO::PARAM_STR);
     $statement ->execute();
     $user = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $user;

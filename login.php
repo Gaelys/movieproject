@@ -7,8 +7,9 @@ include 'INC/head.php';
 if (!empty($_POST['login']) && !empty($_POST['password'])) {
     $login = $_POST['login'];
     $password = $_POST['password'];
-    $user =connection($login, $password);
-    if (count($user) > 0) {
+    $user =connection($login);
+    $verify = password_verify($password,$user[0]['password']);
+    if (count($user) > 0 && $verify === true) {
         // user identified
         $_SESSION['login'] = $login;
         $_SESSION['iduser'] = $user[0]['iduser'];

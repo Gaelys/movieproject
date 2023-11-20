@@ -101,72 +101,75 @@ if (!empty($getCart)) {
     ?>
     <h2 class="mt-2">Contenu du panier :</h2>
 
-
-    <table class="table table-hover text-align-center mt-5">
-        <thead class="table-info">
-            <tr><th>Vos produits</th><th>Quantité</th><th>Prix unitaire</th><th>Prix de l'ensemble</th><th>Modifier les item<th>Supprimer un produit</th></th><th>Prix total</th></tr>
-        </thead>
-        <?php
-        $total = 0;
-        foreach ($getCart as $key =>$item) {
-            echo '<tr><td>';
-            if (!empty($item['idproduct'])) {
-                $name = getProductNameInCart($item['idproduct']);
-                echo $name['snack'];
-            }
-            if (!empty($item['idmovie'])) {
-                $name = getTitleFromMovie($item['idmovie']); 
-                echo $name['title'];
-            }
-            ?>
-            </td><td><?php echo $item['quantity']; ?></td><td><?php
-            if (!empty($item['idproduct'])) {
-                echo $item['price'];
-            }
-            if (!empty($item['idmovie'])) {
-                $priceHer = getPricesession($item['idcart']);
-                echo $priceHer['price'];
-            }
-            ?>€</td><td><?php
-            if (!empty($item['idproduct'])) {
-                echo $p = $item['price']*$item['quantity']; $total =$total + $p;
-            }
-            if (!empty($item['idmovie'])) {
-                $priceHer = getPricesession($item['idcart']);
-                echo $p = $priceHer['price']*$item['quantity']; $total =$total + $p;
-            }
-            ?>
-            €</td><td>
-            <?php 
-            if (!empty($item['idproduct'])) {
-                echo '<a href="lessitem.php?idp=' . $item['idproduct'] . '"><i class="fa-solid fa-minus"></i></a> ou';
-            }
-            ?>
-            <?php
-            if (!empty($item['idproduct'])) {
-                echo '<a href="moreitem.php?idp=' . $item['idproduct'] . '"><i class="fa-solid fa-plus"></i></a>';
-            }
-            ?>
-            </td><td>
-            <?php
-            if (!empty($item['idproduct'])) {
-                echo '<a href="trash.php?idp=' . $item['idproduct'] . '"><i class="fa-solid fa-trash"></a>';
-            } else {
-                ?>
-                <form method="post" action="trash.php">
-                    <input type="hidden" name="quantity" value="<?php echo $item['quantity'];?>">
-                    <input type="hidden" name="idmovie_session" value="<?php echo $item['idmovie_session'];?>">
-                    <input type="hidden" name="idprice" value="<?php echo $priceHer['idprice'];?>">
-                    <input type="hidden" name="idmovie" value="<?php echo $item['idmovie'];?>">
-                    <input type="submit" value="supprimer" class="btn btn-warning btn-sm"></input>
-                </form>
+    <div class="table-responsive">
+        <table class="table table-hover text-align-center mt-5">
+            <thead class="table-info">
+                <tr><th>Vos produits</th><th scope="col">Quantité</th><th scope="col">Prix unitaire</th><th scope="col">Prix de l'ensemble</th><th scope="col">Modifier les item</th><th  scope="col">Supprimer un produit</th><th  scope="col">Prix total</th></tr>
+            </thead>
+            <tbody>
                 <?php
-            }
-            ?><td></td></tr>
-            <?php }
-            ?>
-            <tr><td colspan="6"></td><td><?php echo $total;?>€</td></tr>
-    </table>
+                $total = 0;
+                foreach ($getCart as $key =>$item) {
+                    echo '<tr><td  scope="row">';
+                    if (!empty($item['idproduct'])) {
+                        $name = getProductNameInCart($item['idproduct']);
+                        echo $name['snack'];
+                    }
+                    if (!empty($item['idmovie'])) {
+                        $name = getTitleFromMovie($item['idmovie']); 
+                        echo $name['title'];
+                    }
+                    ?>
+                    </td><td><?php echo $item['quantity']; ?></td><td><?php
+                    if (!empty($item['idproduct'])) {
+                        echo $item['price'];
+                    }
+                    if (!empty($item['idmovie'])) {
+                        $priceHer = getPricesession($item['idcart']);
+                        echo $priceHer['price'];
+                    }
+                    ?>€</td><td><?php
+                    if (!empty($item['idproduct'])) {
+                        echo $p = $item['price']*$item['quantity']; $total =$total + $p;
+                    }
+                    if (!empty($item['idmovie'])) {
+                        $priceHer = getPricesession($item['idcart']);
+                        echo $p = $priceHer['price']*$item['quantity']; $total =$total + $p;
+                    }
+                    ?>
+                    €</td><td>
+                    <?php 
+                    if (!empty($item['idproduct'])) {
+                        echo '<a href="lessitem.php?idp=' . $item['idproduct'] . '"><i class="fa-solid fa-minus"></i></a> ou';
+                    }
+                    ?>
+                    <?php
+                    if (!empty($item['idproduct'])) {
+                        echo '<a href="moreitem.php?idp=' . $item['idproduct'] . '"><i class="fa-solid fa-plus"></i></a>';
+                    }
+                    ?>
+                    </td><td>
+                    <?php
+                    if (!empty($item['idproduct'])) {
+                        echo '<a href="trash.php?idp=' . $item['idproduct'] . '"><i class="fa-solid fa-trash"></a>';
+                    } else {
+                        ?>
+                        <form method="post" action="trash.php">
+                            <input type="hidden" name="quantity" value="<?php echo $item['quantity'];?>">
+                            <input type="hidden" name="idmovie_session" value="<?php echo $item['idmovie_session'];?>">
+                            <input type="hidden" name="idprice" value="<?php echo $priceHer['idprice'];?>">
+                            <input type="hidden" name="idmovie" value="<?php echo $item['idmovie'];?>">
+                            <input type="submit" value="supprimer" class="btn btn-warning btn-sm"></input>
+                        </form>
+                        <?php
+                    }
+                    ?><td></td></tr>
+                <?php }
+                ?>
+                <tr><td colspan="6"></td><td><?php echo $total;?>€</td></tr>
+            </tbody>
+        </table>
+    </div>
     <form method="post" class="mb-3">
         <?php
         foreach ($getCart as $key => $item) {
