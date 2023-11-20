@@ -14,9 +14,18 @@ if (!empty($_POST)) {
     try{
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $pdo->beginTransaction();
+        $verifyExistingLogin = connection($login);
+        if (count($verifyExistingLogin) !== 0 && $verifyExistingLogin[0]['iduser'] !== $_SESSION['iduser']) {
+            ?>
+            <div class="alert alert-dismissible alert-danger">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong>Modification de login: </strong>Login non valide.
+            </div>
+            <?php
+        } else {
         $modifyUser =  modifyInfoUser($login, $firstname, $lastname, $birthdate, $email, $phone, $id); 
         $pdo->commit();
-
+        }
     } catch (Exception $e) {
         $pdo->rollBack();
         echo "Failed: " . $e->getMessage();
