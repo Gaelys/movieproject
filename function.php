@@ -21,7 +21,14 @@ function connection($login, $password) {
 // get two field from one table
 function getAll ($field1, $field2, $table) {
     $pdo = linkToDb();
-    $query  = "SELECT $field1, $field2 FROM $table";
+    $page = $_GET['page'] ?? 1;
+    $nbResultsInPage = 3;
+    $offset = ($page - 1) * $nbResultsInPage;
+    $query= "SELECT COUNT(idmovie, title) as total FROM movie";
+    $statement = $pdo->query($query);
+    $rows = $statement->fetchcolumn(0);
+    $npPages = ceil($rows / $nbResultsInPage);
+    $query  = "SELECT idmovie, title FROM movie LIMIT $offset ,$nbResultsInPage";
     $statement = $pdo->query($query);
     $allFromOne = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $allFromOne;
@@ -105,7 +112,7 @@ function getSession($id) {
     $pdo = linkToDb();
     $query  = "SELECT `session`, date_movie, room, seatAvai, idmovie_session, seats  FROM movie_session as m JOIN `session`  as s ON m.idsession = s.idsession 
     JOIN date_of as d ON m.iddate_of = d.iddate_of 
-    JOIN room as r ON r.idroom = m.idroom where idmovie = $id AND seatAvai > 0 ";
+    JOIN room as r ON r.idroom = m.idroom where idmovie = $id AND seatAvai > 0 AND end_session > NOW()";
     $statement = $pdo->query($query);
     $show = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $show;
@@ -183,7 +190,7 @@ function getSpeCart($id) {
 
 function getMyBookings($id) {
     $pdo = linkToDb();
-    $query = "SELECT * FROM order_cine WHERE iduser = $id AND date_end >= NOW()";
+    $query = "SELECT * FROM order_cine WHERE iduser = $id AND date_end >= NOW() ORDER BY create_At ASC";
     $statement = $pdo->query($query);
     $getMyBookings = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $getMyBookings;
@@ -191,7 +198,7 @@ function getMyBookings($id) {
 
 function getMyOldBookings($id) {
     $pdo = linkToDb();
-    $query = "SELECT * FROM order_cine WHERE iduser = $id AND date_end < NOW()";
+    $query = "SELECT * FROM order_cine WHERE iduser = $id AND date_end < NOW() ORDER BY create_At DESC";
     $statement = $pdo->query($query);
     $getOldBookings = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $getOldBookings;

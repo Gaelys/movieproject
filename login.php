@@ -23,18 +23,29 @@ if (!empty($_SESSION['login'])) {
 } else {
     ?>
     <br/>
-    <form method="post">
-        <div>
-            <label for="login">Identifiant : </label>
-            <input type=text id="login" name="login">
-        </div>
-        <div>
-            <label for="password">Mot de passe : </label>
-            <input type=password id="password" name="password">
-        </div>
-        <div>
-            <button type="submit">Soumettre</button>
-        </div>
+    <form method="post" class="mb-3">
+        <fieldset class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-3">
+                <legend>Se connecter</legend>
+                <div class="form-group justify-content-center">
+                    <label for="login" class="col-sm-4 col-form-label">Identifiant : </label>
+                    <div>
+                        <input type=text id="login" name="login" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="password" class="col-sm-5 col-form-label">Mot de passe : </label>
+                    <div>
+                    <input type=password id="password" name="password" class="form-control">
+                    </div>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary">Connexion</button>
+                </div>
+                </div>
+            </div>
+        </fieldset>
     </form>
     <?php
 };

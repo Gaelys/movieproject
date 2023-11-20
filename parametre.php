@@ -37,14 +37,14 @@ echo '<h2>Modifier vos informations "' . $thisUser[0]['login'] . '".</h2><br/<br
 <hr>
 <div>
     <form method="post">
-        <table>
-            <tr><th>Identifiant :</th><td><input type="text" name="login" value="<?php echo $thisUser[0]['login'];?>"></td></tr>
-            <tr><th>Prénom : </th><td><input type="text" name="firstname" value="<?php echo $thisUser[0]['firstname'];?>"/></td></tr>
-            <tr><th>Nom : </th><td><input type="text" name="lastname" value="<?php echo $thisUser[0]['lastname']; ?>"/></td></tr>
-            <tr><th>Date de naissance : </th><td><input type="date" name="birthdate" value="<?php echo $thisUser[0]['birthdate'];?>"/></td></tr>
-            <tr><th>Email : </th><td><input type="email" name="email" value="<?php echo $thisUser[0]['email'];?>"/></td></tr>
-            <tr><th>téléphone : </th><td><input type="tel" name="phone" value="<?php echo $thisUser[0]['phone'];?>"/></td></tr>
-            <tr><td><input type="submit" value="Enregistrer"></td></tr>
+        <table class="col-md-5">
+            <tr><th>Identifiant :</th><td><input class="form-control" type="text" name="login" value="<?php echo $thisUser[0]['login'];?>"></td></tr>
+            <tr><th>Prénom : </th><td><input class="form-control" type="text" name="firstname" value="<?php echo $thisUser[0]['firstname'];?>"/></td></tr>
+            <tr><th>Nom : </th><td><input class="form-control" type="text" name="lastname" value="<?php echo $thisUser[0]['lastname']; ?>"/></td></tr>
+            <tr><th>Date de naissance : </th><td><input class="form-control" type="date" name="birthdate" value="<?php echo $thisUser[0]['birthdate'];?>"/></td></tr>
+            <tr><th>Email : </th><td><input class="form-control" type="email" name="email" value="<?php echo $thisUser[0]['email'];?>"/></td></tr>
+            <tr><th>téléphone : </th><td><input type="tel" class="form-control" name="phone" value="<?php echo $thisUser[0]['phone'];?>"/></td></tr>
+            <tr><td><input type="submit" value="Enregistrer" class="btn btn-primary"></td></tr>
         </table>
     </form>
 </div>

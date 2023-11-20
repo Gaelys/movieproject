@@ -48,7 +48,7 @@ if (!empty($_POST)) {
         $insertOrderCine = "INSERT INTO order_cine (price, iduser, create_At, date_end) VALUES (:price, :iduser, :currentDate, :date_end)";
         $statement = $pdo->prepare($insertOrderCine);
         $statement->bindParam(':price', $totalPrice);
-        $statement->bindParam(':iduser', $idUser);
+        $statement->bindParam(':iduser', $iduser);
         $statement->bindParam(':currentDate', $currentDate);
         $statement->bindParam(':date_end', $dateOfExpire);
         $statement->execute();
@@ -99,11 +99,13 @@ $getCart = getCart($user);
 
 if (!empty($getCart)) {
     ?>
-    <h2>Contenu du panier :</h2>
+    <h2 class="mt-2">Contenu du panier :</h2>
 
 
-    <table>
-        <tr><th>Vos produits</th><th>Quantité</th><th>Prix unitaire</th><th>Prix de l'ensemble</th><th>Modifier les item<th>Supprimer un produit</th></th><th>Prix total</th></tr>
+    <table class="table table-hover text-align-center mt-5">
+        <thead class="table-info">
+            <tr><th>Vos produits</th><th>Quantité</th><th>Prix unitaire</th><th>Prix de l'ensemble</th><th>Modifier les item<th>Supprimer un produit</th></th><th>Prix total</th></tr>
+        </thead>
         <?php
         $total = 0;
         foreach ($getCart as $key =>$item) {
@@ -156,16 +158,16 @@ if (!empty($getCart)) {
                     <input type="hidden" name="idmovie_session" value="<?php echo $item['idmovie_session'];?>">
                     <input type="hidden" name="idprice" value="<?php echo $priceHer['idprice'];?>">
                     <input type="hidden" name="idmovie" value="<?php echo $item['idmovie'];?>">
-                    <input type="submit" value="supprimer"></input>
+                    <input type="submit" value="supprimer" class="btn btn-warning btn-sm"></input>
                 </form>
                 <?php
             }
-            ?></tr>
+            ?><td></td></tr>
             <?php }
             ?>
             <tr><td colspan="6"></td><td><?php echo $total;?>€</td></tr>
     </table>
-    <form method="post">
+    <form method="post" class="mb-3">
         <?php
         foreach ($getCart as $key => $item) {
             if(!empty($item['idproduct'])) {
@@ -189,12 +191,28 @@ if (!empty($getCart)) {
             
         <?php } ?>
         <input type="hidden" name="totalprice" value="<?php echo $total; ?>">
-        <button type="submit">Payer</button>
+        <button type="submit" class="btn btn-primary">Payer</button>
     </form>
     <?php
 } else {
-    ?><p>Le panier est vide.</p><?php
-
+    ?>
+    <div class="container mt-5">
+        <div>
+            <div class="mb-5">
+            Le panier est vide.
+            </div>
+            <div class="mb-5">
+                <i class="fa-solid fa-hourglass fa-2xl"></i>
+            </div>
+            <div class="mb-5">
+            Nous savons que c'est un choix cornélien.<br/>
+            Prenez votre temps.<br/>
+            Et surtout ... appreciez votre film...<br/>
+            et vos gourmandises.
+            </div>
+        </div>
+    </div>
+    <?php
 }
 
 include 'INC/foot.php';

@@ -21,15 +21,23 @@ JOIN product AS m ON op.idproduct = m.idproduct
 WHERE oc.iduser=$user AND oc.idorder_cine=$id";
 $statement = $pdo->query($query);
 $products = $statement->fetchAll(PDO::FETCH_ASSOC);
+?>
 
+<div class="mb-4 mt-4">
+    <a href="bookings.php">Voir mes réservations</a> - 
+    <a href="parametre.php">Voir mes informations</a>
+</div>
 
+<hr>
+
+<?php
 if (empty($products)) {
     ?>
-    <div>
-    Récapitulatifs commande n° <?php echo $id;?> du 
+    <div class="mb-5">
+    <h4>Récapitulatifs commande n° <?php echo $id;?> du 
     <?php 
     foreach($movies as $movie) {
-        echo $movie['create_At'];?><br/>
+        echo $movie['create_At'];?></h4>
         <?php echo $movie['title'];?><br/>
         <?php echo $movie['quantity'];?> places à <?php echo $movie['price'];?> €(<?php echo $movie['infos'];?> ).<br/>
         Séance de <?php echo $movie['date_movie'];?> à <?php echo $movie['session'];?> 
@@ -37,12 +45,12 @@ if (empty($products)) {
         <?php }
 } else if (empty($movies)){
     ?>
-    <div>
-    Récapitulatifs commande n° <?php echo $id;?> 
+    <div class="mb-5">
+    <h4>Récapitulatifs commande n° <?php echo $id;?> 
     <?php
     foreach($products as $product) {
     ?>
-    du <?php echo $product['create_At'];?><br/>
+    du <?php echo $product['create_At'];?></h4>
     <?php echo $product['snack'];?><br/>
     <?php echo $product['quantity'];?> pour <?php echo $product['price'];?> €(<?php echo $product['infos'];?> ).<br/>
     <?php } ?>
@@ -50,12 +58,15 @@ if (empty($products)) {
     <?php
 } else {
     ?>
-    <div>
-    Récapitulatifs commande n° <?php echo $id;?> du <?php echo $movie['create_At'];?><br/>
-    <?php echo $movie['title'];?><br/>
-    <?php echo $movie['quantity'];?> places à <?php echo $movie['price'];?> €(<?php echo $movie['infos'];?> ).<br/>
-    Séance de <?php echo $movie['date_movie'];?> à <?php echo $movie['session'];?><br/>
-    <?php
+    <div class="mb-5">
+    <h4>Récapitulatifs commande n° <?php echo $id;?> du <?php
+    foreach($movies as $movie) {
+        echo $movie['create_At'];?></h4>
+        <?php echo $movie['title'];?><br/>
+        <?php echo $movie['quantity'];?> places à <?php echo $movie['price'];?> €(<?php echo $movie['infos'];?> ).<br/>
+        Séance de <?php echo $movie['date_movie'];?> à <?php echo $movie['session'];?><br/>
+        <?php
+    }
     foreach($products as $product) {
     echo $product['snack'];?><br/>
     <?php echo $product['quantity'];?> places à <?php echo $product['price'];?> €(<?php echo $product['infos'];?> ).<br/>
@@ -64,4 +75,10 @@ if (empty($products)) {
 </div>
 <?php
 }
+?>
+
+<div class="container mb-5">
+    <i class="fa-solid fa-calendar-days fa-2xl"></i>
+</div>
+<?php
 include 'INC/foot.php';
