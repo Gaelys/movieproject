@@ -11,32 +11,47 @@ if (!empty($_POST)) {
     $email = $_POST['email'];
     $phone = $_POST['phone'];
     $id = $_SESSION['iduser'];
-    try{
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $pdo->beginTransaction();
-        $verifyExistingLogin = connection($login);
-        if (count($verifyExistingLogin) !== 0 && $verifyExistingLogin[0]['iduser'] !== $_SESSION['iduser']) {
-            ?>
-            <div class="alert alert-dismissible alert-danger">
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                <strong>Modification de login: </strong>Login non valide.
-            </div>
-            <?php
-        } else if ($email === '') {
-            ?>
-            <div class="alert alert-dismissible alert-danger">
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                <strong>Modification d'adresse email : </strong> L'adresse email est obligatoire.
-            </div>
-            <?php
-        } else {
-        $modifyUser =  modifyInfoUser($login, $firstname, $lastname, $birthdate, $email, $phone, $id); 
-        $pdo->commit();
+    $error = 0;
+
+    if ($email === '') {
+        ?>
+        <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>Modification d'adresse email : </strong> L'adresse email est obligatoire.
+        </div>
+        <?php 
+        $error ++;
+    }
+    if ($login === '') {
+        ?>
+        <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>Modification de login : </strong> Le login est obligatoire.
+        </div>
+        <?php 
+        $error ++;
+    }
+    if ($error ===0) {
+        try{
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $pdo->beginTransaction();
+            $verifyExistingLogin = connection($login);
+            if (count($verifyExistingLogin) !== 0 && $verifyExistingLogin[0]['iduser'] !== $_SESSION['iduser']) {
+                ?>
+                <div class="alert alert-dismissible alert-danger">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <strong>Modification de login: </strong>Login non valide.
+                </div>
+                <?php   
+            } else {
+                $modifyUser =  modifyInfoUser($login, $firstname, $lastname, $birthdate, $email, $phone, $id); 
+                $pdo->commit();
+            }
+        } catch (Exception $e) {
+            $pdo->rollBack();
+            echo "Failed: " . $e->getMessage();
+            die;
         }
-    } catch (Exception $e) {
-        $pdo->rollBack();
-        echo "Failed: " . $e->getMessage();
-        die;
     }
 }
 
