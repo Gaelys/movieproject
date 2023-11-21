@@ -30,7 +30,7 @@ $prices = getPrices();
             <tr>
                 <td>Place n° <?php echo $i+1;?></td>
                 <td>
-                    <select name="price<?php echo $i+1;?>">
+                    <select class="form-select mb-3" name="price<?php echo $i+1;?>">
                         <option value="">Choisissez un prix</option>
                         <?php
                         foreach ( $prices as $price => $index) {
@@ -46,7 +46,7 @@ $prices = getPrices();
     <input type="hidden" name="idmovie" value="<?php echo $idmovie;?>">
     <input type="hidden" name="idmovie_session" value="<?php echo $idMovieSession;?>">
     <input type="hidden" name="quantity" value="<?php echo $quantity;?>">
-    <button type="submit">Finaliser</button>
+    <button type="submit" class="btn btn-primary mb-3">Finaliser</button>
 </form>
 
 

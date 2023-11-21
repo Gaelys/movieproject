@@ -22,8 +22,8 @@ $hourOfMovie = substr($roomDetail[0]['session'], 0, 5);
 ?>
 <h3>Vous avez choisi le film : "<?php echo $movie;?>", le <?php echo $formattedDate . " du " . $monthNum . " à " . $hourOfMovie ;?> : </h3>
 <p>Il reste <?php echo $seatAvai;?> places. </p>
-<form method="post" action="chooseprice.php">
-    <div class="form-group col-sm-5">
+<form method="post" action="chooseprice.php" class="col-sm-3">
+    <div class="form-group">
         <label class="form-label mt-4" for="quantity">Choisissez la quantité : </label><br/>
         <input type="number" class="form-control" min="0" max="<?php echo $seatAvai;?>" id="quantity" name="quantity">
     </div>

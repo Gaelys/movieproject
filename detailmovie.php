@@ -13,25 +13,27 @@ if(isset($_SESSION['message'])) {
     unset($_SESSION['message']);
 }
 ?>
-<br/>
-<h3>Film à l'affiche <strong>"<?php echo $movie[0]['title'];?>"</strong>.</h3>
-<div class="alert alert-danger">
-    <h4 class="alert-heading">Classé : <?php echo $movie[0]['classification'];?></h4>
+<div>
+    <h3>Film à l'affiche <strong>"<?php echo $movie[0]['title'];?>"</strong>.</h3>
+    <div class="alert alert-danger">
+        <h4 class="alert-heading">Classé : <?php echo $movie[0]['classification'];?></h4>
+    </div>
+    <img src="<?php echo $movie[0]['images'];?>" width="160em" height="250em"> 
+    <h4>Résumé : </h4><?php echo $movie[0]['summary'];?><br/><br/>
+    Date de sortie :<?php echo $movie[0]['releaseDate'];?><br/>
+    <?php
+    $formattedHour = substr($movie[0]['duration'], 0, 2);
+    $formattedMin = substr($movie[0]['duration'], 3, 2);
+
+    echo "Ce film dure " . $formattedHour . "h" . $formattedMin .".<br/>";
+    ?>
 </div>
-<img src="<?php echo $movie[0]['images'];?>" width="160em" height="250em"> 
-<h4>Résumé : </h4><?php echo $movie[0]['summary'];?><br/><br/>
-Date de sortie :<?php echo $movie[0]['releaseDate'];?><br/>
 <?php
-$formattedHour = substr($movie[0]['duration'], 0, 2);
-$formattedMin = substr($movie[0]['duration'], 3, 2);
-
-echo "Ce film dure " . $formattedHour . "h" . $formattedMin .".<br/>";
-
 $availableMovies = getSession($identifiant);
 
 ?>
 <h3>Places restantes</h3>
-<table class="table table-hover">
+<table class="table table-hover table-responsive">
     <thead class="table-success">
         <tr><th> Séance </th><th>Heure</th><th>Places restantes</th></tr>
     </thead>

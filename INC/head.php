@@ -46,8 +46,15 @@
                             <a class="nav-link <?php echo $title === 'gourmandises' ? 'active' : '' ?>" href="product.php">Nos Gourmandises</a>
                         </li>
                         <li class="nav-item">
-                            <?php if (!empty($_SESSION['login'])) : ?>
-                            <a class="nav-link <?php echo $title === 'Panier' ? 'active' : '' ?>" href="cart.php">Mon Panier</a>
+                            <?php 
+                            if (!empty($_SESSION['login'])) : 
+                            $getNotif = getquantityForCartNotif($_SESSION['iduser']);
+                            $totalQuantity = 0;
+                            foreach ($getNotif as $items) {
+                                $totalQuantity = $totalQuantity + $items['quantity'];
+                            }
+                            ?>
+                            <a class="nav-link <?php echo $title === 'Panier' ? 'active' : '' ?>" href="cart.php">Mon Panier <?php echo '<strong class="rounded-circle bg-danger p-1">' . $totalQuantity;?></strong></a>
                             <?php endif ?>
                         </li>
                         <li class="nav-item">

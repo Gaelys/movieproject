@@ -71,7 +71,7 @@ if (!empty($_POST)) {
     <div class="form-group">
         <div class="mb-3">
             <label for="quantity" class="form-label mt-4">Choisissez la quantité : </label><br/>
-            <input class="form-select" type="number" min="0" id="quantity" name="quantity">
+            <input class="form-control" type="number" min="0" id="quantity" name="quantity">
         </div>
             <div>
             <button type="submit" class="btn btn-outline-info">Commander</button>

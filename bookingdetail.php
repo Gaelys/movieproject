@@ -39,7 +39,7 @@ if (empty($products)) {
     foreach($movies as $movie) {
         echo $movie['create_At'];?></h4>
         <?php echo $movie['title'];?><br/>
-        <?php echo $movie['quantity'];?> places à <?php echo $movie['price'];?> €(<?php echo $movie['infos'];?> ).<br/>
+        <?php echo $movie['quantity'];?> places à <?php echo $movie['price'];?> €. (<?php echo $movie['infos'];?> ).<br/>
         Séance de <?php echo $movie['date_movie'];?> à <?php echo $movie['session'];?> 
         </div>
         <?php }
@@ -52,7 +52,7 @@ if (empty($products)) {
     ?>
     du <?php echo $product['create_At'];?></h4>
     <?php echo $product['snack'];?><br/>
-    <?php echo $product['quantity'];?> pour <?php echo $product['price'];?> €(<?php echo $product['infos'];?> ).<br/>
+    <?php echo $product['quantity'];?> pour <?php echo $product['price'];?> €. (Commentaires : <?php echo $product['infos'];?> ).<br/>
     <?php } ?>
     </div>
     <?php
@@ -69,7 +69,7 @@ if (empty($products)) {
     }
     foreach($products as $product) {
     echo $product['snack'];?><br/>
-    <?php echo $product['quantity'];?> places à <?php echo $product['price'];?> €(<?php echo $product['infos'];?> ).<br/>
+    <?php echo $product['quantity'];?> places à <?php echo $product['price'];?> €(Commentaires : <?php echo $product['infos'];?> ).<br/>
     <?php }
     ?>
 </div>

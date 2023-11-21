@@ -306,3 +306,13 @@ function getquantityFromProductOrder($idorder_cine) {
     $getQuantity = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $getQuantity;
 }
+
+function getquantityForCartNotif($iduser) {
+    $pdo = linkToDb();
+    $query  = "SELECT quantity FROM cart WHERE iduser = :iduser";
+    $statement = $pdo ->prepare($query);
+    $statement->bindParam(':iduser', $iduser, PDO::PARAM_INT);
+    $statement->execute();
+    $getQuantity = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $getQuantity;
+}

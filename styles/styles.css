@@ -26,4 +26,8 @@ h3 {
 
 body {
   background-color: lightgray;
+}
+
+a:hover {
+  color: blue;
 }/*# sourceMappingURL=styles.css.map */
