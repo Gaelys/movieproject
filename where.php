@@ -4,6 +4,11 @@ $title ='validation de vos places';
 include 'INC/head.php';
 unset ($_SESSION['movie']);
 
+if ((empty($_POST)) || (!empty($_GET))) {
+    header ('Location: index.php');
+    die;
+}
+
 if (!empty($_POST)) {
     $iduser = $_SESSION['iduser'];
     $quantity = $_POST['quantity'];
@@ -29,8 +34,8 @@ if (!empty($_POST)) {
         $verifySeatAvai = verifySeatAvai($session);
         $seatAvai = $verifySeatAvai['seatAvai'];
         if ($quantity > $seatAvai ) {
-            $_SESSION['message'] = "Ce nombre de place ne'est plus disponible.";
-            ('Location: detailmovie.php?identifiant=$idmovie');
+            $_SESSION['message'] = "Ce nombre de place n'est plus disponible.";
+            header ('Location: detailmovie.php?identifiant=' . $idmovie . '');
             die;
         } else {
             $seatAfterCart = $seatAvai - $quantity;
@@ -74,7 +79,7 @@ if (!empty($_POST)) {
         die;
     }
 }
-
-header ('Location: cart.php');
+$_SESSION['message'] = "Ajouté au panier avec succès.";
+header ('Location: index.php');
 exit();
 include 'INC/foot.php';

@@ -1,4 +1,8 @@
 <?php
+if (!isset($_SESSION['login'])) {
+  header('Location: index.php');
+  die;
+}
 session_start();
 $_SESSION = array();
 session_destroy();

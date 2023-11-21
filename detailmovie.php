@@ -14,7 +14,13 @@ $identifiant = $_GET['identifiant'];
 $movie = getinfo("movie", "classification", "idclassification", "idmovie", $identifiant);
 
 if(isset($_SESSION['message'])) {
-    echo "<p>" . $_SESSION['message'] . "</p>";
+    ?>
+    <div class="alert alert-dismissible alert-warning">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <h4 class="alert-heading"><?php echo $_SESSION['message'];?></h4>
+        <p class="mb-0"></p>
+    </div>
+    <?php
     unset($_SESSION['message']);
 }
 ?>

@@ -1,7 +1,16 @@
 <?php
 $title= 'Accueil';
 include 'INC/head.php';
-
+if(isset($_SESSION['message'])) {
+  ?>
+  <div class="alert alert-dismissible alert-success">
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <h4 class="alert-heading"><?php echo $_SESSION['message'];?></h4>
+    <p class="mb-0"></p>
+  </div>
+  <?php
+  unset($_SESSION['message']);
+}
 $page = $_GET['page'] ?? 1;
 $nbResultsInPage = 3;
 $offset = ($page - 1) * $nbResultsInPage;

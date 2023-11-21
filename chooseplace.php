@@ -1,7 +1,7 @@
 <?php
 $title ='choisissez le nombre de place';
 include 'INC/head.php';
-if (empty($_POST)) {
+if ((empty($_POST)) || (!empty($_GET))) {
     header ('Location: index.php');
     die;
 }

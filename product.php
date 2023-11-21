@@ -21,7 +21,7 @@ foreach($products as $product) {
     ?>
     <div class="d-flex mb-3">
       <div class="col-md-2">
-        <img src="<?php echo $product['images'];?>" width="160em" height="250em"> 
+        <img src="<?php echo $product['images'];?>" width="190em" height="250em"> 
       </div>
       <div class="col-md-6">
       <?php 
