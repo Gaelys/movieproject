@@ -13,43 +13,53 @@ if (!empty($_POST)) {
         die;
     }
     $iduser = $_SESSION['iduser'];
-    $quantity = $_POST['quantity'];
     $price = $product[0]['price'];
     $infos = $product[0]['allergies'];
-    try {
-        $pdo = linkToDb();
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $pdo->beginTransaction();
+    $quantity = $_POST['quantity'];
+    if ($quantity === '0' || $quantity === '' ) {
+        ?>
+        <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <div class="container">
+                <strong>Oups !</strong> 0 n'est pas une quantité valide.
+            </div>
+        </div>
+        <?php
+    } else {
+        try {
+            $pdo = linkToDb();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $pdo->beginTransaction();
 
-        $cart = getPCart($_SESSION['iduser'], $idproduct);
-        var_dump($cart);
-        if (!empty($cart)){
-            $quantityT = $quantity + $cart[0]['quantity'];
-            $priceT = $price +  $cart[0]['price'];
-            $idcart = $cart[0]['idcart'];
-            $query ="UPDATE cart SET quantity = $quantityT, price = $priceT  WHERE idcart = $idcart AND idproduct = $idproduct";
-            $statement =  $pdo ->exec($query);
-        } else {
-            $query = "INSERT INTO cart (idproduct, iduser, quantity, price, infos) VALUES (:idproduct, :iduser, :quantity, :price, :infos)";
-            $statement = $pdo ->prepare($query);
-            $statement ->bindValue(':idproduct', $idproduct, \PDO::PARAM_INT);
-            $statement ->bindValue(':iduser', $iduser, \PDO::PARAM_INT);
-            $statement ->bindValue(':quantity', $quantity, \PDO::PARAM_INT);
-            $statement ->bindValue(':price', $price, \PDO::PARAM_STR);
-            $statement ->bindValue(':infos', $infos, \PDO::PARAM_STR);
-            $statement ->execute();
-        }    
-        $pdo->commit();
-    } catch (Exception $e) {
-            $pdo->rollBack();
-            echo "Failed: " . $e->getMessage();
-            die;
+            $cart = getPCart($_SESSION['iduser'], $idproduct);
+            var_dump($cart);
+            if (!empty($cart)){
+                $quantityT = $quantity + $cart[0]['quantity'];
+                $priceT = $price +  $cart[0]['price'];
+                $idcart = $cart[0]['idcart'];
+                $query ="UPDATE cart SET quantity = $quantityT, price = $priceT  WHERE idcart = $idcart AND idproduct = $idproduct";
+                $statement =  $pdo ->exec($query);
+            } else {
+                $query = "INSERT INTO cart (idproduct, iduser, quantity, price, infos) VALUES (:idproduct, :iduser, :quantity, :price, :infos)";
+                $statement = $pdo ->prepare($query);
+                $statement ->bindValue(':idproduct', $idproduct, \PDO::PARAM_INT);
+                $statement ->bindValue(':iduser', $iduser, \PDO::PARAM_INT);
+                $statement ->bindValue(':quantity', $quantity, \PDO::PARAM_INT);
+                $statement ->bindValue(':price', $price, \PDO::PARAM_STR);
+                $statement ->bindValue(':infos', $infos, \PDO::PARAM_STR);
+                $statement ->execute();
+            }    
+            $pdo->commit();
+        } catch (Exception $e) {
+                $pdo->rollBack();
+                echo "Failed: " . $e->getMessage();
+                die;
+        }
+
+        header('location: product.php');
+        exit();
     }
-
-    header('location: product.php');
-    exit();
 }
-
 
 ?>
 <div class="mb-3">
