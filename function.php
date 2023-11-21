@@ -17,21 +17,6 @@ function connection($login) {
     return $user;
 }
 
-// get two field from one table
-function getAll ($field1, $field2, $table) {
-    $pdo = linkToDb();
-    $page = $_GET['page'] ?? 1;
-    $nbResultsInPage = 3;
-    $offset = ($page - 1) * $nbResultsInPage;
-    $query= "SELECT COUNT(idmovie, title) as total FROM movie";
-    $statement = $pdo->query($query);
-    $rows = $statement->fetchcolumn(0);
-    $npPages = ceil($rows / $nbResultsInPage);
-    $query  = "SELECT idmovie, title FROM movie LIMIT $offset ,$nbResultsInPage";
-    $statement = $pdo->query($query);
-    $allFromOne = $statement->fetchAll(PDO::FETCH_ASSOC);
-    return $allFromOne;
-}
 
 // select info of two table with join (foreign key)
 function getInfo ($table, $table2, $foreignkey, $id, $identifiant) {
@@ -315,4 +300,12 @@ function getquantityForCartNotif($iduser) {
     $statement->execute();
     $getQuantity = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $getQuantity;
+}
+
+function productList($idproduct, $table) {
+    $pdo = linkToDb();
+    $query = "SELECT $idproduct FROM $table ;";
+    $statement = $pdo->query($query);
+    $productList = $statement->fetchAll(PDO::FETCH_COLUMN);
+    return $productList;
 }

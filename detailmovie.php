@@ -5,6 +5,11 @@ if (empty($_GET) || (!is_numeric($_GET['identifiant']))) {
     header('Location: product.php');
     die;
 }
+$productList = productList("idmovie", "movie");
+if (!in_array($_GET['identifiant'],$productList)) {
+    header('Location: index.php');
+    exit();
+}
 $identifiant = $_GET['identifiant'];
 $movie = getinfo("movie", "classification", "idclassification", "idmovie", $identifiant);
 

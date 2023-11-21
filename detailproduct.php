@@ -1,12 +1,19 @@
 <?php
 $title ='votre gourmandise';
 include 'INC/head.php';
-if (empty($_GET) || (!is_numeric($_GET['identifiant']))) {
+if ((empty($_GET)) || (!is_numeric($_GET['identifiant']))) {
     header('Location: product.php');
     die;
 }
+
+$productList = productList("idproduct", "product");
+if (!in_array($_GET['identifiant'],$productList)) {
+    header('Location: product.php');
+    exit();
+}
 $idproduct = $_GET['identifiant'];
 $product = getProductInfo($idproduct);
+
 if (!empty($_POST)) { 
     if (empty($_SESSION['iduser'])) {
         header('Location: login.php');
