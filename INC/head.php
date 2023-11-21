@@ -53,8 +53,9 @@
                             foreach ($getNotif as $items) {
                                 $totalQuantity = $totalQuantity + $items['quantity'];
                             }
+                            $entity = '<strong class="rounded-circle bg-danger p-1">' . $totalQuantity . '</strong>';
                             ?>
-                            <a class="nav-link <?php echo $title === 'Panier' ? 'active' : '' ?>" href="cart.php">Mon Panier <?php echo '<strong class="rounded-circle bg-danger p-1">' . $totalQuantity;?></strong></a>
+                            <a class="nav-link <?php echo $title === 'Panier' ? 'active' : '' ?>" href="cart.php">Mon Panier <?php echo $totalQuantity !== 0 ? $entity : '' ?></a>
                             <?php endif ?>
                         </li>
                         <li class="nav-item">
