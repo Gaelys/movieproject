@@ -3,9 +3,20 @@ $title ='gourmandises';
 include 'INC/head.php';
 
 $products =getAllFromProduct("*", "product");
+if(isset($_SESSION['message'])) {
+  ?>
+  <div class="alert alert-dismissible alert-success">
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <h4 class="alert-heading"><?php echo $_SESSION['message'];?></h4>
+    <p class="mb-0"></p>
+  </div>
+  <?php
+  unset($_SESSION['message']);
+}
 ?>
 <div><h3 class="text-warning"><i class="fa-solid fa-cookie-bite"></i>Produit en vente : </h3></div>
 <?php
+
 foreach($products as $product) {
     ?>
     <div class="d-flex mb-3">

@@ -55,7 +55,7 @@ if (!empty($_POST)) {
                 echo "Failed: " . $e->getMessage();
                 die;
         }
-
+        $_SESSION['message'] = "Ajouté au panier avec succès.";
         header('location: product.php');
         exit();
     }
