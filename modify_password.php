@@ -1,7 +1,10 @@
 <?php
 $title ='Modification de mot de passe';
 include 'INC/head.php';
-
+if(empty($_SESSION['login'])) {
+    header('Location: login.php');
+    die();
+}
 
 if (!empty($_POST)) {
     $password1 = $_POST['password1'];

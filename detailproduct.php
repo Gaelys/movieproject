@@ -23,12 +23,12 @@ if (!empty($_POST)) {
     $price = $product[0]['price'];
     $infos = $product[0]['allergies'];
     $quantity = $_POST['quantity'];
-    if ($quantity === '0' || $quantity === '' ) {
+    if ($quantity === '0' || $quantity === '' || $quantity < 0 || $quantity > 0) {
         ?>
         <div class="alert alert-dismissible alert-danger">
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             <div class="container">
-                <strong>Oups !</strong> 0 n'est pas une quantité valide.
+                <strong>Oups !</strong> quantité non valide.
             </div>
         </div>
         <?php

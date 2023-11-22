@@ -2,7 +2,10 @@
 $title ='Informations du compte';
 include 'INC/head.php';
 $pdo = linkToDb();
-
+if(empty($_SESSION['login'])) {
+    header('Location: login.php');
+    die();
+}
 if (!empty($_POST)) {
     $login = $_POST['login'];
     $firstname = $_POST['firstname'];

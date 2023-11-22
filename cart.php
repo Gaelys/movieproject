@@ -1,16 +1,16 @@
 <?php
 $title ='Panier';
 include 'INC/head.php';
-?>
-
-<?php
-$user = $_SESSION['iduser'];
+if(empty($_SESSION['login'])) {
+    header('Location: login.php');
+    die();
+}
+$iduser = $_SESSION['iduser'];
 
 if (!empty($_POST)) {
     
     $currentDate = date("Y-m-d H:i:s");
     $totalPrice = $_POST['totalprice'];
-    $iduser = $_SESSION['iduser'];
     $lookForEnd = 0;
     $idmovie_session_array = [];
     foreach ($_POST['cart'] as $item) {
@@ -54,6 +54,16 @@ if (!empty($_POST)) {
         $statement->execute();
         
         $idorder_cine = $pdo->lastInsertId();
+        
+        if (isset($_POST['idoptions'])) {
+            $idoptions = $_POST['idoptions'];
+            $query = "UPDATE order_cine SET idoptions = :idoptions WHERE iduser = :iduser AND idorder_cine = :idorder_cine";
+            $statement = $pdo->prepare($query);
+            $statement->bindParam(':idoptions', $idoptions);
+            $statement->bindParam(':iduser', $iduser);
+            $statement->bindParam(':idorder_cine', $idorder_cine);
+            $statement->execute();
+        }
 
         $cart = $_POST['cart'];
         
@@ -91,11 +101,12 @@ if (!empty($_POST)) {
     echo "Failed: " . $e->getMessage();
     die;
     }
-
+header ('Location: cart.php');
+die;
 
 }
 
-$getCart = getCart($user);
+$getCart = getCart($iduser);
 
 if (!empty($getCart)) {
     ?>
@@ -169,7 +180,19 @@ if (!empty($getCart)) {
     <?php }
     ?>
     <div class="card text-white bg-primary border-danger mb-3" style="max-width: 100%;">
-        <div class="card-header">Total : <strong class="text-danger"><?php echo $total;?> €</strong></div>
+        <div class="card-header">Total <?php echo $getCart[0]['idoptions'] !== NULL ? 'avant réductions' : ''?> : <strong class="text-danger"><?php echo $total;?> €</strong></div>
+        <?php
+        if ($getCart[0]['idoptions'] !== NULL) {
+            $getSpecials = getSpecials($iduser);
+            $total = $total - $getSpecials['conditions'];
+            ?>
+            <div><h6> Une promotion est active sur votre panier : <span class="text-info"><?php echo $getSpecials['option'];?></span></h6>
+            Vous bénéficiez de <?php echo $getSpecials['conditions'];?> € de réduction.<br/>
+            Soit un total final de : <span class="text-danger"><?php echo $total;?> €</span>.
+            </div>
+            <?php
+        }
+        ?>
         <div class="container">
             <form method="post" class="mb-3">
                 <?php
@@ -193,9 +216,15 @@ if (!empty($getCart)) {
                     <input type="hidden" name="cart[<?php echo $key; ?>][infos]" value="<?php echo $item['infos']; ?>">
                     <input type="hidden" name="cart[<?php echo $key; ?>][elementprice]" value="<?php echo $p; ?>">
                     
-                <?php } ?>
+                <?php } 
+                if ($getCart[0]['idoptions'] !== NULL) {
+                    ?>
+                    <input type="hidden" name="idoptions" value="<?php echo $getCart[0]['idoptions']; ?>">
+                    <?php
+                }
+                ?>
                 <input type="hidden" name="totalprice" value="<?php echo $total; ?>">
-                <button type="submit" class="btn btn-danger">Payer <strong><?php echo $total;?> €</strong></button>
+                <button type="submit" class="btn btn-danger mt-4">Payer <strong><?php echo $total;?> €</strong></button>
             </form>
         </div>
     </div>

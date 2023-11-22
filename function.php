@@ -309,3 +309,28 @@ function productList($idproduct, $table) {
     $productList = $statement->fetchAll(PDO::FETCH_COLUMN);
     return $productList;
 }
+
+function getSpecials($iduser) {
+    $pdo = linkToDb();
+    $query = "SELECT co.idoptions, `option`, conditions, explanation FROM options as co JOIN CART ON co.idoptions = cart.idoptions WHERE iduser = $iduser";
+    $statement = $pdo->query($query);
+    $productList = $statement->fetch(PDO::FETCH_ASSOC);
+    return $productList;
+}
+
+function getSpecialsOfBookin($iduser, $idorder_cine) {
+    $pdo = linkToDb();
+    $query = "SELECT co.idoptions, `option`, conditions, explanation FROM options as co JOIN order_cine ON co.idoptions = order_cine.idoptions WHERE iduser = $iduser AND idorder_cine = $idorder_cine";
+    $statement = $pdo->query($query);
+    $productList = $statement->fetch(PDO::FETCH_ASSOC);
+    return $productList;
+}
+
+
+function getOptionsOfC($iduser) {
+    $pdo = linkToDb();
+    $query = "SELECT idoptions FROM cart WHERE iduser = $iduser";
+    $statement = $pdo->query($query);
+    $options = $statement->fetch(PDO::FETCH_ASSOC);
+    return $options;
+}

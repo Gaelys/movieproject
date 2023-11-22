@@ -9,9 +9,15 @@ if (empty($_SESSION['iduser'])) {
     header('Location: login.php');
     die;
 }
+$idmovie = $_POST['idmovie'];
+if ($_POST['date'] === '') {
+    $_SESSION['message'] = "Ce choix n'est pas valide.";
+    header ('Location: detailmovie.php?identifiant=' . $idmovie . '');
+    die;
+}
 $movie = $_POST['movie'];
 $dateTime = $_POST['date'];
-$idmovie = $_POST['idmovie'];
+
 $roomDetail = getRoomSeatDetail($dateTime);
 $idMovieSession = $roomDetail[0]['idmovie_session'];
 $date = $roomDetail[0]['date_movie'];
@@ -25,7 +31,7 @@ $hourOfMovie = substr($roomDetail[0]['session'], 0, 5);
 <form method="post" action="chooseprice.php" class="col-sm-3">
     <div class="form-group">
         <label class="form-label mt-4" for="quantity">Choisissez la quantité : </label><br/>
-        <input type="number" class="form-control" min="0" max="<?php echo $seatAvai;?>" id="quantity" name="quantity">
+        <input type="number" class="form-control" min="1" max="<?php echo $seatAvai;?>" id="quantity" name="quantity" required>
     </div>
     <input type="hidden" name="idmovie" value="<?php echo $idmovie;?>">
     <input type="hidden" name="movie" value="<?php echo $movie;?>">

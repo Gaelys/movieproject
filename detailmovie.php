@@ -62,7 +62,7 @@ $availableMovies = getSession($identifiant);
 <form action="chooseplace.php" method="post" class="mb-3 col-sm-5">
     <div class="mb-3 col-sm-5">
         <label class="form-label"for="date">Choisissez votre date: </label><br/>
-        <select class="form-select" name="date">
+        <select class="form-select" name="date" required>
             <option value=''>Choissisez une option</option>
             <?php
             foreach ($availableMovies as $avMovie) {

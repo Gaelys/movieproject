@@ -2,6 +2,12 @@
 
 $title ='Informations du compte';
 include 'INC/head.php';
+
+if(empty($_SESSION['login'])) {
+    header('Location: login.php');
+    die();
+}
+
 $pdo = linkToDb();
 
 $getMyBookings = getMyBookings($_SESSION['iduser']);
@@ -18,10 +24,10 @@ if (empty($getMyBookings)) {
 } else { 
     foreach($getMyBookings as $booking) {
         ?>
-        <div>
-            <h4>Réservation n°<?php echo $booking['idorder_cine'];?> faite le : <?php echo $booking['create_At'];?></h4>
+        <div class="card bg-secondary mb-3">
+            <h4 class="card-header">Réservation n°<?php echo $booking['idorder_cine'];?> faite le : <?php echo $booking['create_At'];?></h4>
             <div>
-            Total : <?php echo $booking['price'];?> € 
+            Total : <?php echo $booking['price'];?> € <br/>
             <?php
             echo '<a href="bookingdetail.php?identifiant=' . $booking['idorder_cine'] . '">détails</></a>';
             ?>
@@ -48,10 +54,10 @@ if (empty($getMyOldBookings)) {
 } else { 
     foreach($getMyOldBookings as $booking) {
         ?>
-        <div class="mb-3">
-            <h4>Réservation n°<?php echo $booking['idorder_cine'];?> faite le : <?php echo $booking['create_At'];?></h4>
+        <div class="card bg-secondary mb-3">
+            <h4 class="card-header">Réservation n°<?php echo $booking['idorder_cine'];?> faite le : <?php echo $booking['create_At'];?></h4>
             <div>
-            Total : <?php echo $booking['price'];?> € 
+            Total : <?php echo $booking['price'];?> €<br/>
             <?php
             echo '<a href="bookingdetail.php?identifiant=' . $booking['idorder_cine'] . '">détails</></a>';
             ?>

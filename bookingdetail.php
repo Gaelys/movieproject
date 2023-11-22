@@ -2,10 +2,16 @@
 
 $title ='Informations du compte';
 include 'INC/head.php';
+
+if(empty($_SESSION['login'])) {
+    header('Location: login.php');
+    die();
+}
+
 $pdo = linkToDb();
 $user = $_SESSION['iduser'];
 $id = $_GET['identifiant'];
-$query="SELECT create_At, price, oc.idorder_cine, infos, title, quantity,`session`, date_movie, date_end  FROM order_cine as oc JOIN order_product as op ON oc.idorder_cine=op.idorder_cine
+$query="SELECT create_At, oc.price, oc.idorder_cine, idoptions, price_elements, infos, title, quantity,`session`, date_movie, date_end  FROM order_cine as oc JOIN order_product as op ON oc.idorder_cine=op.idorder_cine
 JOIN movie as m ON op.idmovie=m.idmovie
 JOIN movie_session as ms ON op.idmovie_session=ms.idmovie_session
 JOIN session as s ON ms.idsession=s.idsession
@@ -14,7 +20,7 @@ WHERE oc.iduser =$user AND oc.idorder_cine=$id";
 $statement = $pdo->query($query);
 $movies = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-$query="SELECT oc.create_At, oc.price, oc.idorder_cine, infos, op.quantity, snack
+$query="SELECT oc.create_At, oc.price, price_elements, idoptions, oc.idorder_cine, infos, op.quantity, snack
 FROM order_cine AS oc
 JOIN order_product AS op ON oc.idorder_cine = op.idorder_cine
 JOIN product AS m ON op.idproduct = m.idproduct
@@ -39,7 +45,7 @@ if (empty($products)) {
     foreach($movies as $movie) {
         echo $movie['create_At'];?></h4>
         <?php echo $movie['title'];?><br/>
-        <?php echo $movie['quantity'];?> places à <?php echo $movie['price'];?> €. (<?php echo $movie['infos'];?> ).<br/>
+        <?php echo $movie['quantity'];?> places à <?php echo $movie['price_elements'];?> €. (<?php echo $movie['infos'];?> ).<br/>
         Séance de <?php echo $movie['date_movie'];?> à <?php echo $movie['session'];?> 
         </div>
         <?php }
@@ -52,7 +58,7 @@ if (empty($products)) {
     ?>
     du <?php echo $product['create_At'];?></h4>
     <?php echo $product['snack'];?><br/>
-    <?php echo $product['quantity'];?> pour <?php echo $product['price'];?> €. (Commentaires : <?php echo $product['infos'];?> ).<br/>
+    <?php echo $product['quantity'];?> pour <?php echo $product['price_elements'];?> €. (Commentaires : <?php echo $product['infos'];?> ).<br/>
     <?php } ?>
     </div>
     <?php
@@ -63,22 +69,44 @@ if (empty($products)) {
     foreach($movies as $movie) {
         echo $movie['create_At'];?></h4>
         <?php echo $movie['title'];?><br/>
-        <?php echo $movie['quantity'];?> places à <?php echo $movie['price'];?> €(<?php echo $movie['infos'];?> ).<br/>
+        <?php echo $movie['quantity'];?> places à <?php echo $movie['price_elements'];?> €(<?php echo $movie['infos'];?> ).<br/>
         Séance de <?php echo $movie['date_movie'];?> à <?php echo $movie['session'];?><br/>
         <?php
     }
     foreach($products as $product) {
     echo $product['snack'];?><br/>
-    <?php echo $product['quantity'];?> places à <?php echo $product['price'];?> €(Commentaires : <?php echo $product['infos'];?> ).<br/>
+    <?php echo $product['quantity'];?> places à <?php echo $product['price_elements'];?> €(Commentaires : <?php echo $product['infos'];?> ).<br/>
     <?php }
     ?>
 </div>
 <?php
 
 }
-
-
+$getSpecials = getSpecialsOfBookin($user, $id);
 ?>
+
+<div class="mb-2 mt-2"> Le total de votre commande est 
+    <?php 
+    $showTotal = 0;
+    if (!empty($movies)) {
+        $showTotal =1;
+        echo $movies[0]['price'];
+        ?>
+        €.
+        <?php
+            if (!empty($getSpecials)) {
+                ?>
+            Vous avez bénéficiez d'une réduction de <?php echo $getSpecials['conditions'];?> €. ( <?php echo $getSpecials['option'];?> )
+            <?php
+            }
+    } else if ($showTotal !== '0') {
+            echo $products[0]['price'];
+        ?>
+        €.
+        <?php
+    }
+    ?>
+</div>
 
 <div class="container mb-5">
     <i class="fa-solid fa-calendar-days fa-2xl"></i>

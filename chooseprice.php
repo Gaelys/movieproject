@@ -5,16 +5,26 @@ if ((empty($_POST)) || (!empty($_GET))) {
     header ('Location: index.php');
     die;
 }
-
 $idMovieSession = $_POST['idmovie_session'];
-$movie = $_POST['movie'];
 $idmovie = $_POST['idmovie'];
-$quantity = $_POST['quantity'];
 $verifySeatAvai = verifySeatAvai($idMovieSession);
 $seatAvai = $verifySeatAvai['seatAvai'];
+
+if ($_POST['quantity'] === '' || $_POST['quantity'] === '0' || $_POST['quantity'] < 0 || $_POST['quantity'] >$verifySeatAvai['seatAvai'] ) {
+    $_SESSION['message'] = "Nombre de place non valide.";
+    header ('Location: detailmovie.php?identifiant=' . $idmovie . '');
+    die;
+}
+
+
+$movie = $_POST['movie'];
+
+$quantity = $_POST['quantity'];
+
+
 if ($seatAvai < $quantity) {
     $_SESSION['message'] = "Ce nombre de place ne'est plus disponible.";
-    ('Location: detailmovie.php?identifiant=$idmovie');
+    header ('Location: detailmovie.php?identifiant=' . $idmovie . '');
     die;
 }
 $prices = getPrices();

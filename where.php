@@ -9,17 +9,26 @@ if ((empty($_POST)) || (!empty($_GET))) {
     die;
 }
 
+$idmovie = $_POST['idmovie'];
+
+
+
 if (!empty($_POST)) {
     $iduser = $_SESSION['iduser'];
     $quantity = $_POST['quantity'];
     $session = $_POST['idmovie_session'];
-    $idmovie = $_POST['idmovie'];
+    
     $ticket= array( );
     for ($i = 1; $i <= $quantity; $i++) {
         // Assurez-vous de vérifier si la clé $_POST existe avant de l'ajouter à $ticket
         $post_key = 'price' . $i;
         if (isset($_POST[$post_key])) {
             $ticket[] = $_POST[$post_key];
+            if ($_POST[$post_key] === '') {
+                $_SESSION['message'] = "Prix non valide.";
+                header ('Location: detailmovie.php?identifiant=' . $idmovie . '');
+                die;
+            }
         }
     }
     
@@ -80,6 +89,6 @@ if (!empty($_POST)) {
     }
 }
 $_SESSION['message'] = "Ajouté au panier avec succès.";
-header ('Location: index.php');
+header ('Location: specials.php');
 exit();
 include 'INC/foot.php';
