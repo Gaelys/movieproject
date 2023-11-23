@@ -178,13 +178,23 @@ if (!empty($getCart)) {
             </div>
         </div>
     <?php }
+    $showSpecials  = 0;
+    foreach ($getCart as $cartItem) {
+        if ($cartItem['idoptions'] !== NULL) {
+            $showSpecials = 1;
+        }
+    }
     ?>
     <div class="card text-white bg-primary border-danger mb-3" style="max-width: 100%;">
-        <div class="card-header">Total <?php echo $getCart[0]['idoptions'] !== NULL ? 'avant réductions' : ''?> : <strong class="text-danger"><?php echo $total;?> €</strong></div>
+        <div class="card-header">Total <?php echo $showSpecials !== 0 ? 'avant réductions' : ''?> : <strong class="text-danger"><?php echo $total;?> €</strong></div>
         <?php
-        if ($getCart[0]['idoptions'] !== NULL) {
+        if ($showSpecials !== 0) {
+            
             $getSpecials = getSpecials($iduser);
             $total = $total - $getSpecials['conditions'];
+            if ($total < 0) {
+                $total = 0;
+            }
             ?>
             <div><h6> Une promotion est active sur votre panier : <span class="text-info"><?php echo $getSpecials['option'];?></span></h6>
             Vous bénéficiez de <?php echo $getSpecials['conditions'];?> € de réduction.<br/>
