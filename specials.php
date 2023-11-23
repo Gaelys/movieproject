@@ -18,7 +18,7 @@ $getOptionsOfC = getOptionsOfC($iduser);
 if (isset($_POST['specials']) || ($getOptionsOfC['idoptions']) !== NULL) {
     $iduser = $_SESSION['iduser'];
     $pdo = linkToDb();
-    $query = "UPDATE cart set idoptions = 1 WHERE iduser = :iduser";
+    $query = "UPDATE cart set idoptions = 1 WHERE iduser = :iduser AND idmovie != NULL";
     $statement = $pdo->prepare($query);
     $statement->bindParam(':iduser', $iduser, PDO::PARAM_INT);
     $statement->execute();
