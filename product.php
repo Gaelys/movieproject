@@ -19,19 +19,21 @@ if(isset($_SESSION['message'])) {
 
 foreach($products as $product) {
     ?>
-    <div class="d-flex mb-3">
-      <div class="col-md-2">
-        <img src="<?php echo $product['images'];?>" width="190em" height="250em"> 
+    <div class="container">
+      <div class="d-flex mb-3">
+        <div class="col-md-2">
+          <img src="<?php echo $product['images'];?>" width="190em" height="250em"> 
+        </div>
+        <div class="col-md-6 offset-md-2">
+        <?php 
+          echo '<h6 class="specolor">' . $product['snack'] . ":</h6> ";
+          echo '<div>' . $product['description'] . '</div>';
+          echo '<span class="badge bg-danger rounded-pill">Allergène :' . $product['allergies']. '</span><br/>';
+          echo '<a href="detailproduct.php?identifiant=' . $product["idproduct"] . '">Détails</a></div>';
+          ?>
+        </div>
       </div>
-      <div class="col-md-6">
-      <?php 
-        echo '<h6 class="specolor">' . $product['snack'] . ":</h6> ";
-        echo '<div>' . $product['description'] . '</div>';
-        echo '<span class="badge bg-danger rounded-pill">Allergène :' . $product['allergies']. '</span><br/>';
-        echo '<a href="detailproduct.php?identifiant=' . $product["idproduct"] . '">Détails</a></div>';
-        ?>
-      </div>
-    </div>
+    </div>  
     <?php
 }
 include 'INC/foot.php';

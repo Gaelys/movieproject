@@ -36,17 +36,19 @@ $movies = $statement->fetchAll(PDO::FETCH_ASSOC);
 <?php
 foreach($movies as $movie) {
     ?>
-    <div class="d-flex mb-3">
-      <div class="col-md-2">
-        <img src="<?php echo $movie['images'];?>" width="160em" height="250em"> 
+    <div class="container">
+      <div class="d-flex mb-3">
+        <div class="col-md-2">
+          <img src="<?php echo $movie['images'];?>" width="160em" height="250em"> 
+        </div>
+        <div class="col-md-6 offset-md-2">
+          <?php 
+          echo '<h6 class="specolor">' . $movie['title'] . ":</h6> " . $movie['summary']; 
+          echo '<p><a href="detailmovie.php?identifiant=' . $movie["idmovie"] . '">Détails</a></p>';
+          ?>
+        </div>
       </div>
-      <div class="col-md-6">
-        <?php 
-        echo '<h6 class="specolor">' . $movie['title'] . ":</h6> " . $movie['summary']; 
-        echo '<p><a href="detailmovie.php?identifiant=' . $movie["idmovie"] . '">Détails</a></p>';
-        ?>
-      </div>
-    </div>
+  </div>
     <?php
 }
 ?>
